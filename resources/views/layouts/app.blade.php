@@ -20,12 +20,21 @@
   </nav>
 
   <div class="container">
+    {{-- バリデーションエラー --}}
+    @if(count($errors) > 0)
+    <ul>
+      @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+      @endforeach
+    </ul>
+    @endif
     {{-- フラッシュメッセージ --}}
     @if (session('flash_message'))
       <div class="flash_message bg-success text-center py-3 my-0">
         {{ session('flash_message') }}
       </div>
     @endif
+
     @yield('content')
   </div>
   <!-- Scripts -->

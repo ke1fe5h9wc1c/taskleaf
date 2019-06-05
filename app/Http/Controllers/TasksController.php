@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateTaskRequest;
 use Illuminate\Http\Request;
 use App\Task;
 use App\Http\Controllers\Controller;
@@ -35,7 +36,7 @@ class TasksController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateTaskRequest $request)
     {
       $task = new Task;
       $task->name = $request->name;

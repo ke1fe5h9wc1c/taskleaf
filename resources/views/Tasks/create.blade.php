@@ -11,7 +11,7 @@
     <input type="name" name="name" class="form-control" placeholder="タスクのタイトル">
   </div>
   <div class="form-group">
-    <label for="task_description">パスワード</label>
+    <label for="task_description">詳しい説明</label>
     <input type="text" name="description" class="form-control" placeholder="タスクの詳細">
   </div>
   <button type="submit" class="btn btn-primary">送信する</button>
