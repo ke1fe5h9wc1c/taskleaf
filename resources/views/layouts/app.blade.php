@@ -16,7 +16,7 @@
 <body>
   {{-- navbar --}}
   <nav class="navbar navbar-light mb-2" style="background-color:#e3f2fd;">
-    <a href="#" class="navbar-brand">Taskleaf</a>
+    <a href="/" class="navbar-brand">Taskleaf</a>
   </nav>
 
   <div class="container">

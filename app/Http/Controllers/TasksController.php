@@ -15,7 +15,8 @@ class TasksController extends Controller
      */
     public function index()
     {
-        return view('tasks.index');
+        $tasks = Task::all();
+        return view('tasks.index',['tasks'=>$tasks]);
     }
 
     /**
@@ -36,14 +37,10 @@ class TasksController extends Controller
      */
     public function store(Request $request)
     {
-      // モデルからインスタンスを生成
       $task = new Task;
-      // $requestにformからのデータが格納されているので、以下のようにそれぞれ代入する
       $task->name = $request->name;
       $task->description = $request->description;
-      // 保存
       $task->save();
-      // 保存後 一覧ページへリダイレクト
       return redirect('/')->with('flash_message', '投稿が完了しました');
     }
 
@@ -55,7 +52,8 @@ class TasksController extends Controller
      */
     public function show($id)
     {
-        //
+      $task = Task::find($id);
+      return view('tasks.show',['task'=>$task]);
     }
 
     /**
@@ -66,7 +64,8 @@ class TasksController extends Controller
      */
     public function edit($id)
     {
-        //
+      $task = Task::find($id);
+      return view('tasks.edit', ['task'=>$task]);
     }
 
     /**
@@ -78,7 +77,11 @@ class TasksController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+      $task = Task::find($id);
+      $task->name = $request->name;
+      $task->description = $request->description;
+      $task->save();
+      return redirect("/tasks/".$id)->with('flash_message', '更新が完了しました');;
     }
 
     /**
@@ -89,6 +92,8 @@ class TasksController extends Controller
      */
     public function destroy($id)
     {
-        //
+      $task = Task::find($id);
+      $task->delete();
+      return redirect('/')->with('flash_message', '削除しました');
     }
 }
