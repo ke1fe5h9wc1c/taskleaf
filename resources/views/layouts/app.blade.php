@@ -1,20 +1,34 @@
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-<!-- jqueryの読み込み -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<!-- BootstrapのJS読み込み -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<!DOCTYPE html>
+<html lang="{{ app()->getLocale() }}">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<html>
-  <head>
-    <title>アプリ名 - @yield('title')</title>
-  </head>
-  <body>
-    <nav class="navbar navbar-light mb-2" style="background-color:#e3f2fd;">
-      <a href="#" class="navbar-brand">Taskleaf</a>
-    </nav>
+  <!-- CSRF Token -->
+  <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <div class="container">
-      @yield('content')
-    </div>
-  </body>
+  <title>{{ config('app.name', 'Laravel') }}</title>
+
+  <!-- Styles -->
+  <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+</head>
+<body>
+  {{-- navbar --}}
+  <nav class="navbar navbar-light mb-2" style="background-color:#e3f2fd;">
+    <a href="#" class="navbar-brand">Taskleaf</a>
+  </nav>
+
+  <div class="container">
+    {{-- フラッシュメッセージ --}}
+    @if (session('flash_message'))
+      <div class="flash_message bg-success text-center py-3 my-0">
+        {{ session('flash_message') }}
+      </div>
+    @endif
+    @yield('content')
+  </div>
+  <!-- Scripts -->
+  <script src="{{ asset('js/app.js') }}"></script>
+</body>
 </html>

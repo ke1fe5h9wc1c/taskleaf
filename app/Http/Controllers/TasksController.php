@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Task;
+use App\Http\Controllers\Controller;
 
 class TasksController extends Controller
 {
@@ -23,7 +25,7 @@ class TasksController extends Controller
      */
     public function create()
     {
-        //
+        return view('tasks.create');
     }
 
     /**
@@ -34,7 +36,15 @@ class TasksController extends Controller
      */
     public function store(Request $request)
     {
-        //
+      // モデルからインスタンスを生成
+      $task = new Task;
+      // $requestにformからのデータが格納されているので、以下のようにそれぞれ代入する
+      $task->name = $request->name;
+      $task->description = $request->description;
+      // 保存
+      $task->save();
+      // 保存後 一覧ページへリダイレクト
+      return redirect('/')->with('flash_message', '投稿が完了しました');
     }
 
     /**
