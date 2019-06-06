@@ -15,23 +15,31 @@
 </head>
 <body>
   {{-- navbar --}}
-  <nav class="navbar navbar-light mb-2" style="background-color:#e3f2fd;">
-    <a href="/" class="navbar-brand">Taskleaf</a>
+  <nav class="navbar navbar-light" style="background-color:#e3f2fd;">
+    <div class="mr-auto">
+      <a class="navbar-brand" href="/">Taskleaf</a>
+    </div>
+    <a class="navbar-brand" href="/">タスク一覧</a>
+    <a class="navbar-brand text-danger" href="/logout">ログアウト</a>
   </nav>
+  <br>
+
 
   <div class="container">
     {{-- バリデーションエラー --}}
     @if(count($errors) > 0)
-    <ul>
-      @foreach ($errors->all() as $error)
-        <li>{{ $error }}</li>
-      @endforeach
-    </ul>
+      <div class="alert alert-danger" role="alert">
+        <ul>
+          @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
+        </ul>
+      </div>
     @endif
     {{-- フラッシュメッセージ --}}
     @if (session('flash_message'))
-      <div class="flash_message bg-success text-center py-3 my-0">
-        {{ session('flash_message') }}
+      <div class="alert alert-success text-center" role="alert">
+          {{ session('flash_message') }}
       </div>
     @endif
 

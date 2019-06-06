@@ -6,6 +6,7 @@ use App\Http\Requests\CreateTaskRequest;
 use Illuminate\Http\Request;
 use App\Task;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class TasksController extends Controller
 {
@@ -14,10 +15,17 @@ class TasksController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+     $this->middleware('auth');
+    }
+
     public function index()
     {
-        $tasks = Task::all();
-        return view('tasks.index',['tasks'=>$tasks]);
+        // 現在のUser_idを取得して、現在のUserが投稿したタスクのみを表示
+        $id = Auth::id();
+        $tasks = Task::where('user_id',$id)->get();
+        return view('tasks.index',['tasks'=>$tasks,'id'=>$id]);
     }
 
     /**
@@ -27,7 +35,8 @@ class TasksController extends Controller
      */
     public function create()
     {
-        return view('tasks.create');
+        $id = Auth::id();
+        return view('tasks.create',['id'=>$id]);
     }
 
     /**
@@ -41,6 +50,7 @@ class TasksController extends Controller
       $task = new Task;
       $task->name = $request->name;
       $task->description = $request->description;
+      $task->user_id = $request->user_id;
       $task->save();
       return redirect('/')->with('flash_message', '投稿が完了しました');
     }
@@ -53,8 +63,15 @@ class TasksController extends Controller
      */
     public function show($id)
     {
+      // 現在のUser_id及び、TaskのUser_id取得して、現在のUser_id=TaskのUser_idならTaskを表示
+      $user_id = Auth::id();
       $task = Task::find($id);
-      return view('tasks.show',['task'=>$task]);
+      $task_id = $task['user_id'];
+      if ($user_id == $task_id)
+      {
+        return view('tasks.show',['task'=>$task]);
+      }
+      return redirect("/")->with('flash_message', '他のUserのTaskは確認できません。');
     }
 
     /**
@@ -65,8 +82,15 @@ class TasksController extends Controller
      */
     public function edit($id)
     {
+      // 現在のUser_id及び、TaskのUser_id取得して、現在のUser_id=TaskのUser_idならTaskを表示
+      $user_id = Auth::id();
       $task = Task::find($id);
-      return view('tasks.edit', ['task'=>$task]);
+      $task_id = $task['user_id'];
+      if ($user_id == $task_id)
+      {
+        return view('tasks.edit',['task'=>$task]);
+      }
+      return redirect("/")->with('flash_message', '他のUserのTaskは編集できません。');
     }
 
     /**
@@ -82,7 +106,7 @@ class TasksController extends Controller
       $task->name = $request->name;
       $task->description = $request->description;
       $task->save();
-      return redirect("/tasks/".$id)->with('flash_message', '更新が完了しました');;
+      return redirect("/")->with('flash_message', '更新が完了しました');
     }
 
     /**
@@ -96,5 +120,11 @@ class TasksController extends Controller
       $task = Task::find($id);
       $task->delete();
       return redirect('/')->with('flash_message', '削除しました');
+    }
+
+    public function logout()
+    {
+      Auth::logout();
+      return redirect('/')->with('flash_message', 'ログアウトしました。');
     }
 }
