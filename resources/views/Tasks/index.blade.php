@@ -15,20 +15,33 @@
       </tr>
     </thead>
     @foreach ($tasks as $task)
-    <tbody>
-      <tr>
-        <td scope="row"><a href="/tasks/{{$task->id}}">{{ $task->name }}</a></td>
-        <td>{{ $task->created_at }}</td>
-        <td><a class="btn btn-success" href="tasks/{{$task->id}}/edit">編集</a></td>
-        <td>
-          <form action="/tasks/{{$task->id}}" method="post">
-            {{ csrf_field() }}
-            <input type="hidden" name="_method" value="delete">
-            <input type="submit" class="btn btn-danger" name="" value="削除">
-          </form>
-        </td>
-      </tr>
-    </tbody>
+      <tbody>
+        <tr>
+          <td scope="row"><a href="/tasks/{{$task->id}}">{{ $task->name }}</a></td>
+          <td>{{ $task->created_at }}</td>
+          <td><a class="btn btn-success" href="tasks/{{$task->id}}/edit">編集</a></td>
+          <td>
+            <form action="/tasks/{{$task->id}}" method="post">
+              {{ csrf_field() }}
+              <input type="hidden" name="_method" value="delete">
+              <input type="submit" class="btn btn-danger btn-dell" name="" value="削除">
+            </form>
+          </td>
+        </tr>
+      </tbody>
     @endforeach
   </table>
+@endsection
+
+@section('script')
+  <script>
+    $(function(){
+      $(".btn-dell").click(function(){
+        if(confirm("本当に削除しますか？")){
+          }else{
+            return false;
+        }
+      });
+    });
+  </script>
 @endsection

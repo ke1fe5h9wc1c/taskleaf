@@ -15,6 +15,6 @@
       <input type="text" name="description" class="form-control" placeholder="タスクの詳細">
     </div>
     <input type="hidden" name="user_id" class="form-control" value="{{ $id }}">
-    <button type="submit" class="btn btn-primary">送信する</button>
+    <button type="submit" class="btn btn-primary">登録する</button>
   </form>
 @endsection
